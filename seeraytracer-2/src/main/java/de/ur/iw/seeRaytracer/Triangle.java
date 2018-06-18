@@ -65,7 +65,13 @@ public class Triangle implements Iterable<Vector3D> {
     }
 
     private double getLength(Vector3D vector){
-    
+      double a1 = vector.getX();
+      double a2 = vector.getY();
+      double a3 = vector.getZ();
+
+      double length = sqrt(a1*a1 + a2*a2 + a3*a3);
+
+      return length;
     }
 
     @Override
