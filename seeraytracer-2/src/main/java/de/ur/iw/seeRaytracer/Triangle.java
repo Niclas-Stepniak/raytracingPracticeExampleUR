@@ -53,6 +53,21 @@ public class Triangle implements Iterable<Vector3D> {
         return new SurfaceInformation(position, normal);
     }
 
+    public double getAverageTriangleSize(){
+      /*nach Satz des Heron*/
+      Vector3D A = vertices[0];
+      Vector3D B = vertices[1];
+      Vector3D C = vertices[2];
+      Vector3D a = C.subtract(B);
+      Vector3D b = A.subtract(C);
+      Vector3D c = B.subtract(A);
+      double s = getLength(a);
+    }
+
+    private double getLength(Vector3D vector){
+    
+    }
+
     @Override
     public UnmodifiableIterator<Vector3D> iterator() {
         return Iterators.forArray(vertices);
