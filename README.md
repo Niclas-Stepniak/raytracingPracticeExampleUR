@@ -3,7 +3,7 @@
 
 ## Beschleunigen sie diese Funktion
 
-```
+```java
 private SurfaceInformation findFirstIntersection(Ray ray){
   Surface Information closestIntersection = null;
   double distanceToClosestIntersection = Double.POSITIVE_INFINTY;
