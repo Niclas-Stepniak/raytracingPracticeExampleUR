@@ -64,3 +64,4 @@ Zwei grundsätzliche Möglichkeiten:
 
 - Startzelle (welche ist das?) + wiederholtes Springen zwischen jeweils benachbarten Zellen, in exakt gleicher Reihenfolge wie der Strahl zwischen ihnen übergeht (eleganter, aber geometrielastiger)
 
+**This is a project which is based on the work of many. Most of the reused code should be referenced in the project.**
