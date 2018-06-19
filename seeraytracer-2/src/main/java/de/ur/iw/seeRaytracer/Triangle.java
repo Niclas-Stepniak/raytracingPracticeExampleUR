@@ -1,5 +1,7 @@
 package de.ur.iw.seeRaytracer;
 
+import static java.lang.Math.sqrt;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
@@ -58,17 +60,21 @@ public class Triangle implements Iterable<Vector3D> {
       Vector3D A = vertices[0];
       Vector3D B = vertices[1];
       Vector3D C = vertices[2];
+
       Vector3D a = C.subtract(B);
       Vector3D b = A.subtract(C);
       Vector3D c = B.subtract(A);
-      double s = getLength(a);
+
+      double s = (getLength(a)+getLength(b)+getLength(c))/2;
+
+      double F = sqrt(s*(s-getLength(a))*(s-getLength(b))*(s-getLength(c)));
+      return F;
     }
 
     private double getLength(Vector3D vector){
       double a1 = vector.getX();
       double a2 = vector.getY();
       double a3 = vector.getZ();
-
       double length = sqrt(a1*a1 + a2*a2 + a3*a3);
 
       return length;
