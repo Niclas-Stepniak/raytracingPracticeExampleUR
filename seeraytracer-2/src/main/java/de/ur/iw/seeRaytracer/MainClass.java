@@ -17,13 +17,10 @@ public class MainClass {
         //int imageWidth = 1920;
         int imageWidth = 320;
 
+        Camera camera = createCameraThatLooksAtBunnyTriangles(triangles);
+
         var scene = new Scene();
         scene.addAll(triangles);
-        double cubeSideLength = scene.getAverageTriangleSize();
-
-        Camera camera = createCameraThatLooksAtBunnyTriangles(triangles, cubeSideLength);
-
-
 
         int imageHeight = (int) (imageWidth / camera.getAspectRatio());
         var image = renderImage(scene, camera, imageWidth, imageHeight);
@@ -35,9 +32,8 @@ public class MainClass {
      * the size of their bounding box. The camera's orientation is chosen specifically to look good with the data in the
      * file bunny.obj.
      */
-    private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles, double sideLength) {
+    private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
         var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
-        var gridBuildingHelp = new Grid(sideLength,boundingBox);
         var distanceFromCameraToTriangles = 0.8 * boundingBox.getMaxDiameter(); // somewhat arbitrary value
         var lookAt = boundingBox.getCenter();
         var lookDirection = new Vector3D(0, 0, -1); // chosen so that the bunny is viewed from its front side
