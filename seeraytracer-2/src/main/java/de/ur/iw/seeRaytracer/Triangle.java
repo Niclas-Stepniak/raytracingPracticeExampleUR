@@ -55,7 +55,7 @@ public class Triangle implements Iterable<Vector3D> {
         return new SurfaceInformation(position, normal);
     }
 
-    public double getTriangleSize(){
+    public double getAverageTriangleSize(){
       /*nach Satz des Heron*/
       Vector3D A = vertices[0];
       Vector3D B = vertices[1];
