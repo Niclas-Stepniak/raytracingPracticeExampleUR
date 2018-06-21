@@ -30,6 +30,18 @@ public class Scene {
         }
     }
 
+    public double getAverageTriangleSize(){
+      var sum;
+      int count;
+
+      for (var triangle : triangles) {
+        sum += triangle.getTriangleSize();
+        count++;
+      }
+
+       return sum / (double)count;
+    }
+
     /**
      * Traces the given ray through the scene until it intersects anything.
      *
