@@ -31,15 +31,15 @@ public class Scene {
     }
 
     public double getAverageTriangleSize(){
-      var sum;
-      int count;
+      int sum = 0;
+      int count = 0;
 
       for (var triangle : triangles) {
         sum += triangle.getTriangleSize();
         count++;
       }
 
-       return sum / (double)count;
+       return ((double) sum / (double) count);
     }
 
     /**
