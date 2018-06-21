@@ -8,19 +8,23 @@ public class Grid implements Iterable<Vector3D>{
   private final ArrayList<Cube> grid = new ArrayList<>();
 
   public Grid(double sideLength, AxisAlignedBoundingBox boundingbox) {
-
+    System.out.println((int)sideLength);
     Vector3D boxMin = boundingbox.getMin();
 
-    Vector3D curCubeMin;
-    Vector3D curCubeMax;
+    Vector3D curCubeMin = null;
+    Vector3D curCubeMax = null;
 
     double xLength = boundingbox.getDimensionsLengths()[0];
     double yLength = boundingbox.getDimensionsLengths()[1];
     double zLength = boundingbox.getDimensionsLengths()[2];
 
-    xLength /=sideLength;
-    yLength /=sideLength;
-    zLength /=sideLength;
+    xLength /= sideLength;
+    yLength /= sideLength;
+    zLength /= sideLength;
+
+    System.out.println("Xlength = "+xLength);
+    System.out.println("Ylength = "+yLength);
+    System.out.println("Zlength = "+zLength);
 
     for(int x= 0;x < xLength;x++){
       for(int y = 0;y < yLength;y++){
@@ -33,6 +37,9 @@ public class Grid implements Iterable<Vector3D>{
         }
       }
     }
+    System.out.println(curCubeMax);
+    System.out.println(boundingbox.getMax());
+
   }
 
   public ArrayList<Cube> getGrid() {

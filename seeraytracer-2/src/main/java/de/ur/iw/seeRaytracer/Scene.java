@@ -31,8 +31,8 @@ public class Scene {
     }
 
     public double getAverageTriangleSize(){
-      int sum = 0;
-      int count = 0;
+      double sum = 0;
+      double count = 0;
 
       for (var triangle : triangles) {
         sum += triangle.getTriangleSize();
