@@ -6,10 +6,13 @@ import java.util.ArrayList;
 
 public class Grid implements Iterable<Vector3D>{
   private final ArrayList<Cube> grid = new ArrayList<>();
+  //Just because
+  private final int sideLengthFactor = 42;
 
-  public Grid(double sideLength, AxisAlignedBoundingBox boundingbox) {
-    System.out.println((int)sideLength);
+  public Grid(AxisAlignedBoundingBox boundingbox) {
+
     Vector3D boxMin = boundingbox.getMin();
+
 
     Vector3D curCubeMin = null;
     Vector3D curCubeMax = null;
@@ -17,6 +20,9 @@ public class Grid implements Iterable<Vector3D>{
     double xLength = boundingbox.getDimensionsLengths()[0];
     double yLength = boundingbox.getDimensionsLengths()[1];
     double zLength = boundingbox.getDimensionsLengths()[2];
+
+    double sideLength = xLength/sideLengthFactor;
+    System.out.println((int)sideLength);
 
     xLength /= sideLength;
     yLength /= sideLength;
@@ -26,9 +32,11 @@ public class Grid implements Iterable<Vector3D>{
     System.out.println("Ylength = "+yLength);
     System.out.println("Zlength = "+zLength);
 
-    for(int x= 0;x < xLength;x++){
-      for(int y = 0;y < yLength;y++){
-        for (int z = 0; z < zLength;z++){
+    //making the length increase by one to defintly get all points in
+    
+    for(int x= 0;x < xLength+1;x++){
+      for(int y = 0;y < yLength+1;y++){
+        for (int z = 0; z < zLength+1;z++){
           curCubeMin = new Vector3D((boxMin.getX()+(x*sideLength)),(boxMin.getY()+(y*sideLength)),
               (boxMin.getZ()+(z*sideLength)));
           curCubeMax = new Vector3D((curCubeMin.getX()+sideLength),(curCubeMin.getY()+sideLength),
@@ -37,8 +45,8 @@ public class Grid implements Iterable<Vector3D>{
         }
       }
     }
-    System.out.println(curCubeMax);
-    System.out.println(boundingbox.getMax());
+    System.out.println("CreatedCube" + curCubeMax);
+    System.out.println("LastCube" + boundingbox.getMax());
 
   }
 

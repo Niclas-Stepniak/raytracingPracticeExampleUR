@@ -30,6 +30,7 @@ public class Scene {
         }
     }
 
+/* We get too many cubes with that
     public double getAverageTriangleSize(){
       double sum = 0;
       double count = 0;
@@ -41,7 +42,7 @@ public class Scene {
 
        return ((double) sum / (double) count);
     }
-
+*/
     /**
      * Traces the given ray through the scene until it intersects anything.
      *
