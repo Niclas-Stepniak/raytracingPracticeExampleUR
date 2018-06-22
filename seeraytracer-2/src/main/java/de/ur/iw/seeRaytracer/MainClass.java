@@ -48,6 +48,7 @@ public class MainClass {
     );
   }
 
+
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth, int imageHeight) {
     var image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     var cameraRays = camera.createRayIteratorForImage(imageWidth, imageHeight);
