@@ -56,7 +56,7 @@ public class MainClass {
     boolean intersection = false;
     var grid = gridBuildingHelp.getGrid();
     for (Cube cube : grid) {
-      intersection = triangle.intersectsWithCube(cube);
+      intersection = cube.intersectsWithCube(triangle);
       if(intersection) {
         hashGrid.put(cube, triangle);
       }
