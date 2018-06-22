@@ -1,11 +1,13 @@
 package de.ur.iw.seeRaytracer;
 
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class Grid implements Iterable<Vector3D>{
-  private final ArrayList<Cube> grid = new ArrayList<>();
+  private final HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
+
   //Just because
   private final int sideLengthFactor = 42;
 
@@ -41,16 +43,23 @@ public class Grid implements Iterable<Vector3D>{
               (boxMin.getZ()+(z*sideLength)));
           curCubeMax = new Vector3D((curCubeMin.getX()+sideLength),(curCubeMin.getY()+sideLength),
               (curCubeMin.getZ()+sideLength));
-          grid.add(new Cube(curCubeMin,curCubeMax));
+          grid.put(new Cube(curCubeMin,curCubeMax),new ArrayList<Triangle>());
         }
       }
     }
     System.out.println("CreatedCube" + curCubeMax);
     System.out.println("LastCube" + boundingbox.getMax());
-
   }
 
-  public ArrayList<Cube> getGrid() {
+  public void delCube(Cube cube){
+    grid.remove(cube);
+  }
+
+  public void saveTriangle(Cube cube, Triangle triangle){
+      grid.get(cube).add(triangle);
+  }
+
+  public HashMap<Cube,ArrayList<Triangle> > getGrid() {
     return grid;
   }
 
@@ -59,5 +68,3 @@ public class Grid implements Iterable<Vector3D>{
     return null;
   }
 }
-
-
