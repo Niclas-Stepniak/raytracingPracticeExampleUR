@@ -53,6 +53,25 @@ public class Cube {
         vertices.add(v7);
     }
 
+    public boolean intersectsWithCube(Triangle triangle) {
+        // test if cube intersects with vertex first, if not, test intersection with edges of triangle
+        boolean intersection = false;
+        Vector3D v0 = triangle.getVertex(0);
+        Vector3D v1 = triangle.getVertex(1);
+        Vector3D v2 = triangle.getVertex(2);
+
+        //intersection = intersectsWith(v0) || intersectsWith(v1) || intersectsWith(v2);
+
+        if (!intersection) {
+            Vector3D e0 = v0.subtract(v1);
+            Vector3D e1 = v0.subtract(v2);
+            Vector3D e2 = v1.subtract(v2);
+
+            //intersection = intersectsWith(e0) || intersectsWith(e1) || intersectsWith(e2)
+        }
+        return intersection;
+    }
+
     public ArrayList<Vector3D> getVertices() {
         return vertices;
     }
