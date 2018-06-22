@@ -1,5 +1,6 @@
 package de.ur.iw.seeRaytracer;
 
+import java.util.HashMap;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import javax.imageio.ImageIO;
@@ -9,8 +10,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainClass {
-  public static void main(String[] args) throws IOException {
+  private static Grid gridBuildingHelp;
+  private static HashMap<Cube, Triangle> hashGrid;
 
+  public static void main(String[] args) throws IOException {
+    hashGrid = new HashMap<>();
     var bunnyOBJ = ClassLoader.getSystemResourceAsStream("bunny.obj");
     var triangles = DataFileReader.parseTrianglesFromOBJ(bunnyOBJ);
 
@@ -34,7 +38,7 @@ public class MainClass {
    */
   private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
     var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
-    var gridBuildingHelp = new Grid(boundingBox);
+    gridBuildingHelp = new Grid(boundingBox);
     var distanceFromCameraToTriangles = 0.8 * boundingBox.getMaxDiameter(); // somewhat arbitrary value
     var lookAt = boundingBox.getCenter();
     var lookDirection = new Vector3D(0, 0, -1); // chosen so that the bunny is viewed from its front side
@@ -46,6 +50,17 @@ public class MainClass {
         70,
         16, 9
     );
+  }
+
+  private static void insertIntoHashGrid(Triangle triangle) {
+    boolean intersection = false;
+    var grid = gridBuildingHelp.getGrid();
+    for (Cube cube : grid) {
+      intersection = triangle.intersectsWithCube(cube);
+      if(intersection) {
+        hashGrid.put(cube, triangle);
+      }
+    }
   }
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth, int imageHeight) {
