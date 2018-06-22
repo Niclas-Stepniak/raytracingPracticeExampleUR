@@ -31,6 +31,7 @@ public class MainClass {
   /**
    * Creates a camera that keeps a set of triangles in view. The camera's distance to the triangles
    * is relative to the size of their bounding box. The camera's orientation is chosen specifically
+   * to look good with the data in the file bunny.obj.
    */
   private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
     var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
@@ -50,8 +51,6 @@ public class MainClass {
     );
   }
 
-    boolean intersection = false;
-    var grid = gridBuildingHelp.getGrid();
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {
