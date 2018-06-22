@@ -1,5 +1,6 @@
 package de.ur.iw.seeRaytracer;
 
+import java.util.ArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import javax.imageio.ImageIO;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainClass {
-
+  private static Grid gridBuildingHelp;
   public static void main(String[] args) throws IOException {
 
     var bunnyOBJ = ClassLoader.getSystemResourceAsStream("bunny.obj");
@@ -35,7 +36,7 @@ public class MainClass {
    */
   private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
     var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
-    var gridBuildingHelp = new Grid(boundingBox);
+    gridBuildingHelp = new Grid(boundingBox);
     var distanceFromCameraToTriangles =
         0.8 * boundingBox.getMaxDiameter(); // somewhat arbitrary value
     var lookAt = boundingBox.getCenter();
@@ -51,6 +52,16 @@ public class MainClass {
     );
   }
 
+  private static void insertIntoGrid(Triangle triangle) {
+    boolean intersection = false;
+    var grid = gridBuildingHelp.getGrid();
+    for (var cube : grid.keySet()) {
+      intersection = cube.intersectsWithCube(triangle);
+      if(intersection) {
+        gridBuildingHelp.saveTriangle(cube, triangle);
+      }
+    }
+  }
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {
