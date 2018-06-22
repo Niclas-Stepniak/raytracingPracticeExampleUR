@@ -1,10 +1,6 @@
 package de.ur.iw.seeRaytracer;
 
 import static java.lang.Math.sqrt;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -29,30 +25,30 @@ public class AxisAlignedBoundingBox {
 
     //Method to get the sidelength of the boundingbox
     public double[] getDimensionsLengths(){
-      double[] sides = new double[3];
+        double[] sides = new double[3];
 
-      Vector3D underMax = new Vector3D(max.getX(),min.getY(),max.getZ());
-      Vector3D behindUnderMax = new Vector3D(max.getX(),min.getY(),min.getZ());
+        Vector3D underMax = new Vector3D(max.getX(),min.getY(),max.getZ());
+        Vector3D behindUnderMax = new Vector3D(max.getX(),min.getY(),min.getZ());
 
-      Vector3D xDimension = behindUnderMax.subtract(min);
-      Vector3D yDimension = max.subtract(underMax);
-      Vector3D zDimension = underMax.subtract(behindUnderMax);
+        Vector3D xDimension = behindUnderMax.subtract(min);
+        Vector3D yDimension = max.subtract(underMax);
+        Vector3D zDimension = underMax.subtract(behindUnderMax);
 
-      sides[0]= getLength(xDimension);
-      sides[1]= getLength(yDimension);
-      sides[2]= getLength(zDimension);
+        sides[0]= getLength(xDimension);
+        sides[1]= getLength(yDimension);
+        sides[2]= getLength(zDimension);
 
-      return sides;
+        return sides;
     }
 
     //method to get the length of the vector
     private double getLength(Vector3D vector){
-      double a1 = vector.getX();
-      double a2 = vector.getY();
-      double a3 = vector.getZ();
-      double length = sqrt(a1*a1 + a2*a2 + a3*a3);
+        double a1 = vector.getX();
+        double a2 = vector.getY();
+        double a3 = vector.getZ();
+        double length = sqrt(a1*a1 + a2*a2 + a3*a3);
 
-      return length;
+        return length;
     }
 
     public static AxisAlignedBoundingBox createFrom(Iterable<Triangle> triangles) {
