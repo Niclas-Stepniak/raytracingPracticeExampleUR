@@ -53,6 +53,12 @@ public class Cube {
         vertices.add(v7);
     }
 
+    public boolean pointInCube(Vector3D point) {
+        return (point.getX() >= min.getX() && point.getX() <= max.getX()
+            && point.getY() >= min.getY() && point.getY() <= max.getY()
+                && point.getZ() >= min.getZ() && point.getZ() <= max.getZ());
+    }
+
     public boolean intersectsWithCube(Triangle triangle) {
         // test if cube intersects with vertex first, if not, test intersection with edges of triangle
         boolean intersection = false;
@@ -60,13 +66,13 @@ public class Cube {
         Vector3D v1 = triangle.getVertex(1);
         Vector3D v2 = triangle.getVertex(2);
 
-        //intersection = intersectsWith(v0) || intersectsWith(v1) || intersectsWith(v2);
+        intersection = pointInCube(v0) || pointInCube(v1) || pointInCube(v2);
 
         if (!intersection) {
             Vector3D e0 = v0.subtract(v1);
             Vector3D e1 = v0.subtract(v2);
             Vector3D e2 = v1.subtract(v2);
-
+            
             //intersection = intersectsWith(e0) || intersectsWith(e1) || intersectsWith(e2)
         }
         return intersection;
