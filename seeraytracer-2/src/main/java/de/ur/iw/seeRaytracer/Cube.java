@@ -72,7 +72,11 @@ public class Cube {
             Vector3D e0 = v0.subtract(v1);
             Vector3D e1 = v0.subtract(v2);
             Vector3D e2 = v1.subtract(v2);
-            
+
+            var e0Ray = new Ray(v1, e0.normalize());
+            var e1Ray = new Ray(v2, e1.normalize());
+            var e2Ray = new Ray(v2, e2.normalize());
+
             //intersection = intersectsWith(e0) || intersectsWith(e1) || intersectsWith(e2)
         }
         return intersection;
