@@ -23,6 +23,7 @@ public class MainClass {
 
     var scene = new Scene();
     scene.addAll(triangles);
+    scene.setGrid(gridBuildingHelp.getGrid());
 
     int imageHeight = (int) (imageWidth / camera.getAspectRatio());
     var image = renderImage(scene, camera, imageWidth, imageHeight);
@@ -51,6 +52,11 @@ public class MainClass {
         16, 9
     );
   }
+  /*Don't know if I flame myself here if i wrote this but eitherway, this might not be the right
+   * position for this function as we don't make calls from other classes to the main class,
+   * the main class is kind of a postoffice which gives letters to the right place. So i put this
+   * function into a comment
+
 
   private static void insertIntoGrid(Triangle triangle) {
     boolean intersection = false;
@@ -62,6 +68,7 @@ public class MainClass {
       }
     }
   }
+  */
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {
