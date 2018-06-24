@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 // neue Klasse statt Unterklasse von AABB besser?
 
+
 public class Cube {
     private Vector3D min;
     private Vector3D max;
@@ -61,7 +62,7 @@ public class Cube {
 
     public boolean intersectsWithCube(Triangle triangle) {
         // test if cube intersects with vertex first, if not, test intersection with edges of triangle
-        boolean intersection = false;
+        boolean intersection;
         Vector3D v0 = triangle.getVertex(0);
         Vector3D v1 = triangle.getVertex(1);
         Vector3D v2 = triangle.getVertex(2);
@@ -77,7 +78,8 @@ public class Cube {
             var e1Ray = new Ray(v2, e1.normalize());
             var e2Ray = new Ray(v2, e2.normalize());
 
-            //intersection = intersectsWith(e0) || intersectsWith(e1) || intersectsWith(e2)
+            intersection = e0Ray.intersectWithCube(this) != null || e1Ray.intersectWithCube(this) != null
+                || e2Ray.intersectWithCube(this) != null;
         }
         return intersection;
     }
