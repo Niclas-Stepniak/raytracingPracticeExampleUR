@@ -3,9 +3,14 @@ package de.ur.iw.seeRaytracer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class Scene {
     private final Collection<Triangle> triangles = new ArrayList<>();
+    /*since we already handle the triangles here we should handle the grid here aswell
+     * but i put the initializier for the first build up into the Grid class and used it as a
+     * gridBuildingHelp in the Main class*/
+    private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
 
     /**
      * Adds triangles to this scene.
@@ -13,6 +18,33 @@ public class Scene {
     public void addAll(Collection<Triangle> triangles) {
         this.triangles.addAll(triangles);
     }
+
+    public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
+        this.grid = grid;
+        System.out.println("Scene Line 24: Grid Length = "+ grid.size());
+    }
+    /*Goes through all cubes for every cube it goes through all triangles, if a triangle is touching
+    * the cube, it will be safed as a part of the list in the Hashmap under the cube, if a cube has
+    * no triangle intersection, its gonna be kicked out.*/
+
+    public void safeTrianglesInGrid(){
+
+        for (Cube cube : grid.keySet()){
+            boolean intersectedWithTriangle = false;
+
+            for(Triangle triangle : triangles){
+                if(cube.intersectsWithCube(triangle) == true){
+                    grid.get(cube).add(triangle);
+                    intersectedWithTriangle = true;
+                }
+            }
+
+            if (intersectedWithTriangle == false){
+                grid.remove(cube);
+            }
+        }
+    }
+
 
     /**
      * Computes the color of the light that is seen when looking at the scene along the given ray.
@@ -30,7 +62,11 @@ public class Scene {
         }
     }
 
-/* We get too many cubes with that
+    public Collection<Triangle> getTriangles() {
+        return triangles;
+    }
+
+    /* We get too many cubes with that
     public double getAverageTriangleSize(){
       double sum = 0;
       double count = 0;

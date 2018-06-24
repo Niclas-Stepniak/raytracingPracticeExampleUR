@@ -6,7 +6,7 @@ import java.util.Iterator;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class Grid implements Iterable<Vector3D>{
-  private final HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
+  private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
 
   //Just because
   private final int sideLengthFactor = 42;
@@ -30,9 +30,9 @@ public class Grid implements Iterable<Vector3D>{
     yLength /= sideLength;
     zLength /= sideLength;
 
-    System.out.println("Xlength = "+xLength);
-    System.out.println("Ylength = "+yLength);
-    System.out.println("Zlength = "+zLength);
+    System.out.println("Grid Line 33: Xlength = "+xLength);
+    System.out.println("Grid Line 34: Ylength = "+yLength);
+    System.out.println("Grid Line 35: Zlength = "+zLength);
 
     //making the length increase by one to defintly get all points in
 
@@ -47,17 +47,15 @@ public class Grid implements Iterable<Vector3D>{
         }
       }
     }
-    System.out.println("CreatedCube" + curCubeMax);
-    System.out.println("LastCube" + boundingbox.getMax());
+    System.out.println("Grid Line 50: CreatedCube" + curCubeMax);
+    System.out.println("Grid Line 51: LastCube" + boundingbox.getMax());
+    System.out.println("Grid Line 52: Grid Length = "+grid.size());
   }
-
-  public void delCube(Cube cube){
-    grid.remove(cube);
+/* won't need this anymore i think
+  public void setGridWithTriangles(HashMap<Cube, ArrayList<Triangle>> grid) {
+    this.grid = grid;
   }
-
-  public void saveTriangle(Cube cube, Triangle triangle){
-      grid.get(cube).add(triangle);
-  }
+*/
 
   public HashMap<Cube,ArrayList<Triangle> > getGrid() {
     return grid;
