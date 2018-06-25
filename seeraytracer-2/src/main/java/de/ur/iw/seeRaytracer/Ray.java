@@ -2,6 +2,9 @@ package de.ur.iw.seeRaytracer;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class Ray {
     private final Vector3D origin;
     private final Vector3D normalizedDirection;
@@ -31,57 +34,22 @@ public class Ray {
                 '}';
     }
 
-    public Vector3D intersectWithCube(Cube cube){
-        Vector3D invertedDirection = new Vector3D(1 / this.normalizedDirection.getX(),
-                1 / this.normalizedDirection.getY(),
-                1/ this.normalizedDirection.getZ());
-        double tmin = (cube.getMin().getX() - this.origin.getX()) * invertedDirection.getX();
-        double tmax = (cube.getMax().getX() - this.origin.getX()) * invertedDirection.getX();
-        Vector3D minPointOfNextBox = new Vector3D(cube.getMax().getX(), cube.getMin().getY(), cube.getMin().getZ());
+    public boolean intersectWithCube(Cube cube){
+        double tmin = Double.NEGATIVE_INFINITY, tmax= Double.POSITIVE_INFINITY;
 
-        if (tmin > tmax) {
-            double tmp = tmax;
-            tmax = tmin;
-            tmin = tmp;
+        for (int i = 0; i < 3; ++i) {
+            if (this.normalizedDirection.toArray()[i] != 0.0) {
+                double t1 = (cube.getMin().toArray()[i] - this.origin.toArray()[i])/this.normalizedDirection.toArray()[i];
+                double t2 = (cube.getMax().toArray()[i] - this.origin.toArray()[i])/this.normalizedDirection.toArray()[i];
+
+                tmin = max(tmin, min(t1, t2));
+                tmax = min(tmax, max(t1, t2));
+            } else if ( this.origin.toArray()[i] <= cube.getMin().toArray()[i] ||  this.origin.toArray()[i] >= cube.getMax().toArray()[i]) {
+                return false;
+            }
         }
 
-        double tymin = (cube.getMin().getY() - this.origin.getY()) * invertedDirection.getY();
-        double tymax = (cube.getMax().getY() - this.origin.getY()) * invertedDirection.getY();
-
-        if (tymin > tymax){
-            double tmp = tymax;
-            tymax = tymin;
-            tymin = tmp;
-        }
-
-        if ((tmin > tymax) || (tymin > tmax))
-            return null;
-
-        if (tymin > tmin)
-            tmin = tymin;
-
-        if (tymax < tmax) {
-            tmax = tymax;
-            minPointOfNextBox =  new Vector3D(cube.getMin().getX(), cube.getMax().getY(), cube.getMin().getZ());
-        }
-
-        double tzmin = (cube.getMin().getZ() - this.origin.getZ()) * invertedDirection.getZ();
-        double tzmax = (cube.getMax().getZ() - this.origin.getZ()) * invertedDirection.getZ();
-        if (tzmin > tzmax){
-            double tmp = tzmax;
-            tzmax = tzmin;
-            tzmin = tmp;
-        }
-
-        if ((tmin > tzmax) || (tzmin > tmax))
-            return null;
-
-        if (tzmax < tmax) {
-            minPointOfNextBox =  new Vector3D(cube.getMin().getX(), cube.getMin().getY(), cube.getMax().getZ());
-        }
-
-        return minPointOfNextBox;
-    }
+        return tmax > tmin && tmax > 0.0;    }
 
 
     @Override

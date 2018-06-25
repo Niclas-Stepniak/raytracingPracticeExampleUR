@@ -27,14 +27,14 @@ public class Cube {
 
     private void setVertices() {
         /* Ecken, die jeweils eine Würfelfläche bilden
-        * v1, v3, v4, v7
-        * v1, v3, v5, v6
-        * v2, v7, v4, v0,
-        * v2, v6, v5, v0
-        * v2, v6, v1, v7
-        * v5, v3, v4, v1
-        * */
-        double edgeLength = (min.distance(max)) * Math.sqrt(1/3);
+         * v1, v3, v4, v7
+         * v1, v3, v5, v6
+         * v2, v7, v4, v0,
+         * v2, v6, v5, v0
+         * v2, v6, v1, v7
+         * v5, v3, v4, v1
+         * */
+        double edgeLength = (min.distance(max)) * Math.sqrt(1 / 3);
         Vector3D v0 = min;
         Vector3D v1 = max;
         Vector3D v2 = new Vector3D(min.getX(), min.getY() + edgeLength, min.getZ());
@@ -56,7 +56,7 @@ public class Cube {
 
     public boolean pointInCube(Vector3D point) {
         return (point.getX() >= min.getX() && point.getX() < max.getX()
-            && point.getY() >= min.getY() && point.getY() < max.getY()
+                && point.getY() >= min.getY() && point.getY() < max.getY()
                 && point.getZ() >= min.getZ() && point.getZ() < max.getZ());
     }
 
@@ -69,7 +69,7 @@ public class Cube {
 
         intersection = pointInCube(v0) || pointInCube(v1) || pointInCube(v2);
 
-        if (!intersection) {
+/*        if (!intersection) {
             Vector3D e0 = v0.subtract(v1);
             Vector3D e1 = v0.subtract(v2);
             Vector3D e2 = v1.subtract(v2);
@@ -78,9 +78,9 @@ public class Cube {
             var e1Ray = new Ray(v2, e1.normalize());
             var e2Ray = new Ray(v2, e2.normalize());
 
-            intersection = e0Ray.intersectWithCube(this) != null || e1Ray.intersectWithCube(this) != null
-                || e2Ray.intersectWithCube(this) != null;
-        }
+            intersection = e0Ray.intersectWithCube(this) != false || e1Ray.intersectWithCube(this) != false
+                || e2Ray.intersectWithCube(this) != false;
+        }*/
         return intersection;
     }
 
@@ -95,10 +95,46 @@ public class Cube {
 
     @Override
     public boolean equals(Object obj) {
-            if(obj instanceof Cube) {
-                return (getMin() == ((Cube) obj).getMin() && getMax() == ((Cube) obj).getMax());
-            } else {
-                return false;
+        if (!(obj instanceof Cube)) return false;
+        Cube other = (Cube) obj;
+        if (this.getMin().getX() != other.getMin().getX()) return false;
+        if (this.getMin().getY() != other.getMin().getY()) return false;
+        if (this.getMin().getZ() != other.getMin().getZ()) return false;
+        if (this.getMax().getX() != other.getMax().getX()) return false;
+        if (this.getMax().getY() != other.getMax().getY()) return false;
+        if (this.getMax().getZ() != other.getMax().getZ()) return false;
+        return true;
+    }
+
+    public ArrayList<Cube> getNeighbourCubes(){
+        ArrayList<Cube> neighbourCubes = new ArrayList<>();
+        double[] min = this.min.toArray();
+        double[] max = this.max.toArray();
+        for(int i = 0; i < 3; i++){
+            double[] minLeft = new double[3];
+            double[] maxLeft = new double[3];
+            double[] minRight = new double[3];
+            double[] maxRight = new double[3];
+            for( int j = 0; j < 3; j++){
+                if( i == j){
+                    minLeft[j] = min[j] - (max[j] - min[j]);
+                    maxLeft[j] = min[j];
+                    minRight[j] = max[j];
+                    maxRight[j] = max[j] + (max[j] - min[j]);
+                }
+                else{
+                    minLeft[j] = min[j];
+                    maxLeft[j] = max[j];
+                    minRight[j] = min[j];
+                    maxRight[j] = max[j];
+                }
             }
+            neighbourCubes.add(new Cube(new Vector3D(minLeft[0], minLeft[1], minLeft[2]), new Vector3D(maxLeft[0], maxLeft[1], maxLeft[2])));
+            neighbourCubes.add(new Cube(new Vector3D(minRight[0], minRight[1], minRight[2]), new Vector3D(maxRight[0], maxRight[1], maxRight[2])));
         }
+        return neighbourCubes;
+    }
+
+
+
 }
