@@ -40,10 +40,6 @@ public class Scene {
                     intersectedWithTriangle = true;
                 }
             }
-
-            if (intersectedWithTriangle == false){
-                grid.remove(cube);
-            }
         }
     }
 
@@ -88,7 +84,58 @@ public class Scene {
      * @return information on the surface point where the first intersection of the ray with any scene object occurs - or null for no intersection.
      */
     private SurfaceInformation findFirstIntersection(Ray ray, Cube cameraOriginCube) {
-        SurfaceInformation closestIntersection = null;
+/*        Cube firstHitCube = null;
+        double distanceToFirstCube = Double.POSITIVE_INFINITY;
+        for(Cube cube:this.grid.keySet()){
+            var intersection = ray.intersectWithCube(cube);
+            if(intersection){
+                double distanceToSurface = cube.getMin().distance(ray.getOrigin());
+                if (distanceToSurface < distanceToFirstCube) {
+                    distanceToFirstCube = distanceToSurface;
+                    firstHitCube = cube;
+                }
+            }
+        }
+        if (firstHitCube != null) {*/
+            SurfaceInformation closestIntersection = null;
+            double distanceToClosestIntersection = Double.POSITIVE_INFINITY;
+            var currentCube = cameraOriginCube;
+            do {
+                for (var triangle : this.grid.get(currentCube)) {
+                    var intersection = triangle.intersectWith(ray);
+                    if (intersection != null) {
+                        double distanceToSurface = intersection.getPosition().distance(ray.getOrigin());
+                        if (distanceToSurface < distanceToClosestIntersection) {
+                            distanceToClosestIntersection = distanceToSurface;
+                            closestIntersection = intersection;
+                        }
+                    }
+                }
+                if(closestIntersection != null) return closestIntersection;
+                else{
+                    ArrayList<Cube> neighbours = currentCube.getNeighbourCubes();
+                    Cube furtherCube = null;
+                    double distanceToFurtherCube = Double.NEGATIVE_INFINITY;
+                    for(Cube cube: neighbours){
+
+                        if(ray.intersectWithCube(cube)){
+                            double distance = cube.getMin().distance(ray.getOrigin());
+                            if ( distance > distanceToFurtherCube){
+                                distanceToFurtherCube = distance;
+                                furtherCube = cube;
+                            }
+                        }
+                    }
+                    if(furtherCube == null || !this.grid.containsKey(furtherCube)) break;
+                    currentCube = furtherCube;
+                }
+
+
+            }while(true);
+
+
+
+/*        SurfaceInformation closestIntersection = null;
         double distanceToClosestIntersection = Double.POSITIVE_INFINITY;
         for (var triangle : triangles) {
             var intersection = triangle.intersectWith(ray);
@@ -99,7 +146,7 @@ public class Scene {
                     closestIntersection = intersection;
                 }
             }
-        }
-        return closestIntersection;
+        }*/
+        return null;
     }
 }
