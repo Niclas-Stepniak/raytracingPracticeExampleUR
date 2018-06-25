@@ -37,7 +37,7 @@ public class MainClass {
    */
   private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
     var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
-    gridBuildingHelp = new Grid(boundingBox);
+    //gridBuildingHelp = new Grid(boundingBox);
     var distanceFromCameraToTriangles =
         0.8 * boundingBox.getMaxDiameter(); // somewhat arbitrary value
     var lookAt = boundingBox.getCenter();
@@ -46,11 +46,14 @@ public class MainClass {
     var cameraPosition = lookAt.subtract(distanceFromCameraToTriangles, lookDirection);
     var up = new Vector3D(0, 1, 0); // chosen so that the bunny is viewed with its ears upwards
 
-    return Camera.buildFromEyeForwardUp(
+    Camera camera = Camera.buildFromEyeForwardUp(
         cameraPosition, lookDirection, up,
         70,
         16, 9
     );
+    boundingBox = boundingBox.addCameraToBoundingBox(camera);
+    gridBuildingHelp = new Grid(boundingBox);
+    return camera;
   }
   /*Don't know if I flame myself here if i wrote this but eitherway, this might not be the right
    * position for this function as we don't make calls from other classes to the main class,
@@ -73,18 +76,31 @@ public class MainClass {
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {
     var image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
-    var cameraRays = camera.createRayIteratorForImage(imageWidth, imageHeight);
-    cameraRays.forEachRemaining((cameraRay) -> {
-      var pixelColor = scene.computeLightThatFlowsBackAlongRay(cameraRay);
-      image.setRGB(cameraRay.getPixelCoordinateX(), cameraRay.getPixelCoordinateY(),
-          pixelColor.getRGB());
-
-      // print progress to console
-      if (cameraRay.getPixelCoordinateX() == 0) {
-        System.out
-            .println("Tracing row " + (cameraRay.getPixelCoordinateY() + 1) + " of " + imageHeight);
+    Cube cameraOriginCube = null;
+    var eye = camera.getEye();
+    for(Cube cube: scene.getGrid().keySet()){
+        if(cube.pointInCube(eye)){
+            cameraOriginCube = cube;
+            break;
+        }
+    }
+      if (cameraOriginCube == null) {
+          throw new Error("Fehler beim Ermitteln der Kameraposition im Grid");
       }
-    });
-    return image;
+
+      var cameraRays = camera.createRayIteratorForImage(imageWidth, imageHeight);
+      while (cameraRays.hasNext()) {
+          CameraRay cameraRay = cameraRays.next();
+          var pixelColor = scene.computeLightThatFlowsBackAlongRay(cameraRay, cameraOriginCube);
+          image.setRGB(cameraRay.getPixelCoordinateX(), cameraRay.getPixelCoordinateY(),
+                  pixelColor.getRGB());
+
+          // print progress to console
+          if (cameraRay.getPixelCoordinateX() == 0) {
+              System.out
+                      .println("Tracing row " + (cameraRay.getPixelCoordinateY() + 1) + " of " + imageHeight);
+          }
+      }
+      return image;
   }
 }
