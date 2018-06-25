@@ -75,7 +75,7 @@ public class MainClass {
     var image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     var cameraRays = camera.createRayIteratorForImage(imageWidth, imageHeight);
     cameraRays.forEachRemaining((cameraRay) -> {
-      var pixelColor = scene.computeLightThatFlowsBackAlongRay(cameraRay);
+      var pixelColor = scene.computeLightThatFlowsBackAlongRay(cameraRay, cameraOriginCube, camera);
       image.setRGB(cameraRay.getPixelCoordinateX(), cameraRay.getPixelCoordinateY(),
           pixelColor.getRGB());
 

@@ -50,9 +50,9 @@ public class Scene {
     /**
      * Computes the color of the light that is seen when looking at the scene along the given ray.
      */
-    public Color computeLightThatFlowsBackAlongRay(Ray ray) {
+    public Color computeLightThatFlowsBackAlongRay(Ray ray, Cube cameraOriginCube, Camera camera) {
         // determine which part of the scene gets hit by the given ray, if any
-        SurfaceInformation closestSurface = findFirstIntersection(ray);
+        SurfaceInformation closestSurface = findFirstIntersection(ray, cameraOriginCube, camera);
 
         if (closestSurface != null) {
             // return surface color at intersection point
@@ -86,9 +86,16 @@ public class Scene {
      * @param ray describes the exact path through the scene that will be searched.
      * @return information on the surface point where the first intersection of the ray with any scene object occurs - or null for no intersection.
      */
-    private SurfaceInformation findFirstIntersection(Ray ray) {
+    private SurfaceInformation findFirstIntersection(Ray ray, Cube cameraOriginCube, Camera camera) {
         SurfaceInformation closestIntersection = null;
         double distanceToClosestIntersection = Double.POSITIVE_INFINITY;
+
+        /*Triangle visibleTriangle;
+         *for (Cube cube : cubeList) {
+         *  visibleTriangle = getVisibleTriangle(camera, cube, ray);
+         *  if (visibleTriangle != null) break;
+         }*/
+
         for (var triangle : triangles) {
             var intersection = triangle.intersectWith(ray);
             if (intersection != null) {
@@ -102,16 +109,19 @@ public class Scene {
         return closestIntersection;
     }
 
-    private Triangle getVisibleTriangle(Cube cube, Ray ray) {
+    private Triangle getVisibleTriangle(Camera camera, Cube cube, Ray ray) {
         ArrayList<Triangle> allTriangles = grid.get(cube);
         HashMap<Triangle, Double> distancesList = new HashMap<>();
 
         for (Triangle triangle : allTriangles) {
-            Vector3D cameraPosition = null; // get camera position
+            Vector3D cameraPosition = camera.getEye();
             SurfaceInformation triangleIntersection = triangle.intersectWith(ray);
 
-            double distanceToOrigin = cameraPosition.distance(triangleIntersection.getPosition());
-            distancesList.put(triangle, distanceToOrigin);
+            if(triangleIntersection != null) {
+                double distanceToOrigin = cameraPosition.distance(triangleIntersection.getPosition());
+                distancesList.put(triangle, distanceToOrigin);
+            }
+
         }
         Map.Entry<Triangle, Double> min = null;
         for (Map.Entry<Triangle, Double> entry : distancesList.entrySet()) {
@@ -120,6 +130,17 @@ public class Scene {
             }
         }
 
-        return min.getKey();
+        if (min.getKey() != null) return min.getKey();
+        else return null;
+    }
+
+    private ArrayList<Cube> sortCubes(Ray ray, Cube cameraOriginCube) {
+        ArrayList<Cube> unsortedList = new ArrayList<>();
+        for (Cube cube : grid.keySet()) {
+            if (ray.intersectWithCube(cube) != null) {
+                unsortedList.add(cube);
+            }
+        }
+
     }
 }
