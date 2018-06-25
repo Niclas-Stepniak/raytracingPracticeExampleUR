@@ -1,9 +1,10 @@
 package de.ur.iw.seeRaytracer;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 
 public class Scene {
     private final Collection<Triangle> triangles = new ArrayList<>();
@@ -99,5 +100,26 @@ public class Scene {
             }
         }
         return closestIntersection;
+    }
+
+    private Triangle getVisibleTriangle(Cube cube, Ray ray) {
+        ArrayList<Triangle> allTriangles = grid.get(cube);
+        HashMap<Triangle, Double> distancesList = new HashMap<>();
+
+        for (Triangle triangle : allTriangles) {
+            Vector3D cameraPosition = null; // get camera position
+            SurfaceInformation triangleIntersection = triangle.intersectWith(ray);
+
+            double distanceToOrigin = cameraPosition.distance(triangleIntersection.getPosition());
+            distancesList.put(triangle, distanceToOrigin);
+        }
+        Map.Entry<Triangle, Double> min = null;
+        for (Map.Entry<Triangle, Double> entry : distancesList.entrySet()) {
+            if (min ==  null || min.getValue() > entry.getValue()) {
+                min = entry;
+            }
+        }
+
+        return min.getKey();
     }
 }
