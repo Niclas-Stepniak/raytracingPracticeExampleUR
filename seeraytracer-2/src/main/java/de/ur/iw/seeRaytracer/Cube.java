@@ -55,9 +55,9 @@ public class Cube {
     }
 
     public boolean pointInCube(Vector3D point) {
-        return (point.getX() >= min.getX() && point.getX() <= max.getX()
-            && point.getY() >= min.getY() && point.getY() <= max.getY()
-                && point.getZ() >= min.getZ() && point.getZ() <= max.getZ());
+        return (point.getX() >= min.getX() && point.getX() < max.getX()
+            && point.getY() >= min.getY() && point.getY() < max.getY()
+                && point.getZ() >= min.getZ() && point.getZ() < max.getZ());
     }
 
     public boolean intersectsWithCube(Triangle triangle) {

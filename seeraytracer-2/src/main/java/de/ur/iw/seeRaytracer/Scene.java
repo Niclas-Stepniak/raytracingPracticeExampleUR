@@ -23,6 +23,8 @@ public class Scene {
         this.grid = grid;
         System.out.println("Scene Line 24: Grid Length = "+ grid.size());
     }
+
+    public HashMap<Cube, ArrayList<Triangle>> getGrid(){ return this.grid;}
     /*Goes through all cubes for every cube it goes through all triangles, if a triangle is touching
     * the cube, it will be safed as a part of the list in the Hashmap under the cube, if a cube has
     * no triangle intersection, its gonna be kicked out.*/
@@ -49,9 +51,9 @@ public class Scene {
     /**
      * Computes the color of the light that is seen when looking at the scene along the given ray.
      */
-    public Color computeLightThatFlowsBackAlongRay(Ray ray) {
+    public Color computeLightThatFlowsBackAlongRay(Ray ray, Cube cameraOriginCube) {
         // determine which part of the scene gets hit by the given ray, if any
-        SurfaceInformation closestSurface = findFirstIntersection(ray);
+        SurfaceInformation closestSurface = findFirstIntersection(ray, cameraOriginCube);
 
         if (closestSurface != null) {
             // return surface color at intersection point
@@ -85,7 +87,7 @@ public class Scene {
      * @param ray describes the exact path through the scene that will be searched.
      * @return information on the surface point where the first intersection of the ray with any scene object occurs - or null for no intersection.
      */
-    private SurfaceInformation findFirstIntersection(Ray ray) {
+    private SurfaceInformation findFirstIntersection(Ray ray, Cube cameraOriginCube) {
         SurfaceInformation closestIntersection = null;
         double distanceToClosestIntersection = Double.POSITIVE_INFINITY;
         for (var triangle : triangles) {
