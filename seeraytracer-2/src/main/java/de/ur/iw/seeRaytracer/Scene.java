@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class Scene {
+
     private final Collection<Triangle> triangles = new ArrayList<>();
     /*since we already handle the triangles here we should handle the grid here aswell
      * but i put the initializier for the first build up into the Grid class and used it as a
@@ -32,7 +33,7 @@ public class Scene {
     * no triangle intersection, its gonna be kicked out.*/
 
     public void safeTrianglesInGrid(){
-
+        ArrayList<Cube> toDelete = new ArrayList<>();
         for (Cube cube : grid.keySet()){
             boolean intersectedWithTriangle = false;
 
@@ -44,8 +45,11 @@ public class Scene {
             }
 
             if (intersectedWithTriangle == false){
-                grid.remove(cube);
+                toDelete.add(cube);
             }
+        }
+        for (Cube cube : toDelete){
+            grid.remove(cube);
         }
     }
 
@@ -77,7 +81,6 @@ public class Scene {
       return intersection;
     }
 
-
     /**
      * Computes the color of the light that is seen when looking at the scene along the given ray.
      */
@@ -97,20 +100,6 @@ public class Scene {
     public Collection<Triangle> getTriangles() {
         return triangles;
     }
-
-    /* We get too many cubes with that
-    public double getAverageTriangleSize(){
-      double sum = 0;
-      double count = 0;
-
-      for (var triangle : triangles) {
-        sum += triangle.getTriangleSize();
-        count++;
-      }
-
-       return ((double) sum / (double) count);
-    }
-*/
 
     /**
      * Traces the given ray through the scene until it intersects anything.

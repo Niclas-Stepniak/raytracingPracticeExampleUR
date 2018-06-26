@@ -51,11 +51,6 @@ public class Grid implements Iterable<Vector3D>{
     System.out.println("Grid Line 51: LastCube" + boundingbox.getMax());
     System.out.println("Grid Line 52: Grid Length = "+grid.size());
   }
-/* won't need this anymore i think
-  public void setGridWithTriangles(HashMap<Cube, ArrayList<Triangle>> grid) {
-    this.grid = grid;
-  }
-*/
 
   public HashMap<Cube,ArrayList<Triangle> > getGrid() {
     return grid;
