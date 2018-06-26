@@ -72,7 +72,6 @@ public class AxisAlignedBoundingBox {
 
         var min = new Vector3D(minX, minY, minZ);
         var max = new Vector3D(maxX, maxY, maxZ);
-
         return new AxisAlignedBoundingBox(min, max);
     }
 
@@ -98,10 +97,9 @@ public class AxisAlignedBoundingBox {
         maxY = Math.max(maxY, cameraEye.getY());
         minZ = Math.min(minZ, cameraEye.getZ());
         maxZ = Math.max(maxZ, cameraEye.getZ());
-
+        System.out.println(cameraEye);
         var min = new Vector3D(minX, minY, minZ);
         var max = new Vector3D(maxX, maxY, maxZ);
-
         return new AxisAlignedBoundingBox(min, max);
     }
 }
