@@ -72,7 +72,6 @@ public class AxisAlignedBoundingBox {
 
         var min = new Vector3D(minX, minY, minZ);
         var max = new Vector3D(maxX, maxY, maxZ);
-
         return new AxisAlignedBoundingBox(min, max);
     }
 
@@ -82,5 +81,25 @@ public class AxisAlignedBoundingBox {
 
     public double getMaxDiameter() {
         return min.distance(max);
+    }
+
+    public AxisAlignedBoundingBox addCameraToBoundingBox(Camera camera){
+       Vector3D cameraEye = camera.getEye();
+        var minX = this.min.getX();
+        var minY = this.min.getY();
+        var minZ = this.min.getZ();
+        var maxX = this.max.getX();
+        var maxY = this.max.getY();
+        var maxZ = this.max.getZ();
+        minX = Math.min(minX, cameraEye.getX());
+        maxX = Math.max(maxX, cameraEye.getX());
+        minY = Math.min(minY, cameraEye.getY());
+        maxY = Math.max(maxY, cameraEye.getY());
+        minZ = Math.min(minZ, cameraEye.getZ());
+        maxZ = Math.max(maxZ, cameraEye.getZ());
+        System.out.println(cameraEye);
+        var min = new Vector3D(minX, minY, minZ);
+        var max = new Vector3D(maxX, maxY, maxZ);
+        return new AxisAlignedBoundingBox(min, max);
     }
 }
