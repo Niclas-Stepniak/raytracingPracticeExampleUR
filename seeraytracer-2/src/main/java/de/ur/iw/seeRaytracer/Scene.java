@@ -22,6 +22,7 @@ public class Scene {
     public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
         this.grid = grid;
         System.out.println("Scene Line 24: Grid Length = "+ grid.size());
+        safeTrianglesInGrid();
     }
     /*Goes through all cubes for every cube it goes through all triangles, if a triangle is touching
     * the cube, it will be safed as a part of the list in the Hashmap under the cube, if a cube has
@@ -43,6 +44,13 @@ public class Scene {
                 grid.remove(cube);
             }
         }
+    }
+
+    public boolean rayHitsATriangleInCube(){
+      boolean intersection = false;
+      System.out.println(" Scene implement ray triangle");
+
+      return intersection;
     }
 
 
@@ -79,6 +87,7 @@ public class Scene {
        return ((double) sum / (double) count);
     }
 */
+
     /**
      * Traces the given ray through the scene until it intersects anything.
      *
