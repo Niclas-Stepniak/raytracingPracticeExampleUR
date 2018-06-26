@@ -74,23 +74,6 @@ public class MainClass {
     gridBuildingHelp = new Grid(boundingBox);
     return camera;
   }
-  /*Don't know if I flame myself here if i wrote this but eitherway, this might not be the right
-   * position for this function as we don't make calls from other classes to the main class,
-   * the main class is kind of a postoffice which gives letters to the right place. So i put this
-   * function into a comment
-
-
-  private static void insertIntoGrid(Triangle triangle) {
-    boolean intersection = false;
-    var grid = gridBuildingHelp.getGrid();
-    for (var cube : grid.keySet()) {
-      intersection = cube.intersectsWithCube(triangle);
-      if(intersection) {
-        gridBuildingHelp.saveTriangle(cube, triangle);
-      }
-    }
-  }
-  */
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {
