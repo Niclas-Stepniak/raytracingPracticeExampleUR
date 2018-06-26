@@ -34,7 +34,7 @@ public class Camera {
         return new Camera(eye, normalizedForward, orthoNormalUp, horizontalFOVRadians, verticalFOVRadians);
     }
 
-    public Vector3D getEye() {
+    public  Vector3D getEye() {
         return eye;
     }
 
