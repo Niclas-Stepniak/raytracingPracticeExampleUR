@@ -57,6 +57,7 @@ public class MainClass {
    */
   private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
     var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
+    //gridBuildingHelp = new Grid(boundingBox);
     var distanceFromCameraToTriangles =
         0.8 * boundingBox.getMaxDiameter(); // somewhat arbitrary value
     var lookAt = boundingBox.getCenter();
@@ -93,7 +94,7 @@ public class MainClass {
       var cameraRays = camera.createRayIteratorForImage(imageWidth, imageHeight);
       while (cameraRays.hasNext()) {
           CameraRay cameraRay = cameraRays.next();
-          var pixelColor = scene.computeLightThatFlowsBackAlongRay(cameraRay, cameraOriginCube, camera);
+          var pixelColor = scene.computeLightThatFlowsBackAlongRay(cameraRay, cameraOriginCube);
           image.setRGB(cameraRay.getPixelCoordinateX(), cameraRay.getPixelCoordinateY(),
                   pixelColor.getRGB());
 
