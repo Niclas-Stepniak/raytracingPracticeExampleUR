@@ -23,7 +23,6 @@ public class Scene {
 
     public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
         this.grid = grid;
-        System.out.println("Scene Line 24: Grid Length = "+ grid.size());
         safeTrianglesInGrid();
     }
 
