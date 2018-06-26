@@ -1,3 +1,22 @@
+/* Gruppe: Luca Schumann, Stefanie Madl, Till Emme, Niclas Stepniak
+ * Aufgabenaufteilung wie zuvor. 
+ * Bei Problemen haben alle Teilnehmer sich eingebracht.
+ * 
+ * 1. Schnitttest Punkt-Würfel, 2. Schnitttest Strahl-Würfel
+ * Till Emme
+ *
+ * 3. Schnitttest Dreieck-Würfel, 4. Welche Zellen werden von einem gegebenen Dreieck berührt?
+ * Stefanie Madl
+ *
+ * 5. Welche Dreiecke werden im Cube getroffen, 6.Funktion zum Aufbau des Gitters und einspeichern der Dreiecke
+ * Niclas Stepniak
+ *
+ * 7. Funktion die die korrekte Intersection abgibt, 8. Funktion zum Sortieren der Zellen entlang des Strahls
+ * Luca Schumann 
+ *
+ * GitHub repository: https://github.com/Miles7up/raytracingPracticeExampleUR/
+ * 
+ */
 package de.ur.iw.seeRaytracer;
 
 import java.util.ArrayList;
@@ -22,6 +41,7 @@ public class MainClass {
     Camera camera = createCameraThatLooksAtBunnyTriangles(triangles);
 
     var scene = new Scene();
+    scene.addCamera(camera);
     scene.addAll(triangles);
     scene.setGrid(gridBuildingHelp.getGrid());
     scene.safeTrianglesInGrid();
@@ -57,23 +77,6 @@ public class MainClass {
 
     return camera;
   }
-  /*Don't know if I flame myself here if i wrote this but eitherway, this might not be the right
-   * position for this function as we don't make calls from other classes to the main class,
-   * the main class is kind of a postoffice which gives letters to the right place. So i put this
-   * function into a comment
-
-
-  private static void insertIntoGrid(Triangle triangle) {
-    boolean intersection = false;
-    var grid = gridBuildingHelp.getGrid();
-    for (var cube : grid.keySet()) {
-      intersection = cube.intersectsWithCube(triangle);
-      if(intersection) {
-        gridBuildingHelp.saveTriangle(cube, triangle);
-      }
-    }
-  }
-  */
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {

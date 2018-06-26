@@ -4,13 +4,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class Scene {
+
     private final Collection<Triangle> triangles = new ArrayList<>();
     /*since we already handle the triangles here we should handle the grid here aswell
      * but i put the initializier for the first build up into the Grid class and used it as a
      * gridBuildingHelp in the Main class*/
     private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
+    private Camera camera;
 
     /**
      * Adds triangles to this scene.
@@ -19,9 +22,13 @@ public class Scene {
         this.triangles.addAll(triangles);
     }
 
+    public void addCamera(Camera camera){
+        this.camera = camera;
+    }
+
     public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
         this.grid = grid;
-        System.out.println("Scene Line 24: Grid Length = "+ grid.size());
+        safeTrianglesInGrid();
     }
 
     public HashMap<Cube, ArrayList<Triangle>> getGrid(){ return this.grid;}
@@ -30,7 +37,7 @@ public class Scene {
     * no triangle intersection, its gonna be kicked out.*/
 
     public void safeTrianglesInGrid(){
-
+        ArrayList<Cube> toDelete = new ArrayList<>();
         for (Cube cube : grid.keySet()){
             boolean intersectedWithTriangle = false;
 
@@ -40,9 +47,42 @@ public class Scene {
                     intersectedWithTriangle = true;
                 }
             }
+            if ((intersectedWithTriangle == false )&&(cube.pointInCube(camera.getEye())==false)){
+                toDelete.add(cube);
+            }
+        }
+        for (Cube cube : toDelete){
+            grid.remove(cube);
         }
     }
 
+    public ArrayList<Triangle> getTrianglesOfCubeThatGetHitByTheRayInTheCube(Cube cube,Ray ray){
+        ArrayList<Triangle> HitTriangles = new ArrayList<>();
+        for (Triangle triangle:grid.get(cube)){
+            if(rayHitsATriangleInCube(triangle,cube,ray)==true){
+                HitTriangles.add(triangle);
+            }
+        }
+        if(triangles.isEmpty()){
+            return null;
+        }else{
+        return HitTriangles;
+        }
+    }
+
+    public boolean rayHitsATriangleInCube(Triangle triangle, Cube cube, Ray ray){
+      boolean intersection = false;
+        SurfaceInformation triangleRayIntersection = triangle.intersectWith(ray);
+
+        if(triangleRayIntersection!=null){
+            Vector3D point = triangleRayIntersection.getPosition();
+            if (cube.pointInCube(point)==true){
+                intersection = true;
+            }
+        }
+
+      return intersection;
+    }
 
     /**
      * Computes the color of the light that is seen when looking at the scene along the given ray.
@@ -64,19 +104,6 @@ public class Scene {
         return triangles;
     }
 
-    /* We get too many cubes with that
-    public double getAverageTriangleSize(){
-      double sum = 0;
-      double count = 0;
-
-      for (var triangle : triangles) {
-        sum += triangle.getTriangleSize();
-        count++;
-      }
-
-       return ((double) sum / (double) count);
-    }
-*/
     /**
      * Traces the given ray through the scene until it intersects anything.
      *
