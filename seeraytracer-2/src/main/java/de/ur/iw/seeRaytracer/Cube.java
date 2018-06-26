@@ -2,7 +2,6 @@ package de.ur.iw.seeRaytracer;
 
 import java.util.ArrayList;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-// neue Klasse statt Unterklasse von AABB besser?
 
 
 public class Cube {
@@ -69,18 +68,6 @@ public class Cube {
 
         intersection = pointInCube(v0) || pointInCube(v1) || pointInCube(v2);
 
-/*        if (!intersection) {
-            Vector3D e0 = v0.subtract(v1);
-            Vector3D e1 = v0.subtract(v2);
-            Vector3D e2 = v1.subtract(v2);
-
-            var e0Ray = new Ray(v1, e0.normalize());
-            var e1Ray = new Ray(v2, e1.normalize());
-            var e2Ray = new Ray(v2, e2.normalize());
-
-            intersection = e0Ray.intersectWithCube(this) != false || e1Ray.intersectWithCube(this) != false
-                || e2Ray.intersectWithCube(this) != false;
-        }*/
         return intersection;
     }
 

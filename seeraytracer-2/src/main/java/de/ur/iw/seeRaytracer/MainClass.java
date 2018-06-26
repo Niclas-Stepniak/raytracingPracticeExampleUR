@@ -2,7 +2,7 @@
  * Aufgabenaufteilung wie zuvor. 
  * Bei Problemen haben alle Teilnehmer sich eingebracht.
  * 
- * 1. Schnitttest Punkt-Würfel, 2. Schnitttest Strahl-Würfel
+ * 1. Schnitttest Punkt-Würfel, 2. Schnitttest Strahl-Würfel 7.Funktion die die korrekte Intersection abgibt
  * Till Emme
  *
  * 3. Schnitttest Dreieck-Würfel, 4. Welche Zellen werden von einem gegebenen Dreieck berührt?
@@ -58,7 +58,6 @@ public class MainClass {
    */
   private static Camera createCameraThatLooksAtBunnyTriangles(List<Triangle> triangles) {
     var boundingBox = AxisAlignedBoundingBox.createFrom(triangles);
-    //gridBuildingHelp = new Grid(boundingBox);
     var distanceFromCameraToTriangles =
         0.8 * boundingBox.getMaxDiameter(); // somewhat arbitrary value
     var lookAt = boundingBox.getCenter();

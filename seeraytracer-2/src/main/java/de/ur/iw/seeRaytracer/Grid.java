@@ -8,7 +8,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 public class Grid implements Iterable<Vector3D>{
   private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
 
-  //Just because
+  //Random Value, chosen because of good performance
   private final int sideLengthFactor = 16;
 
   public Grid(AxisAlignedBoundingBox boundingbox) {

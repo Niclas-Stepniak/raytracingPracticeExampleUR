@@ -9,21 +9,14 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 public class Scene {
 
     private final Collection<Triangle> triangles = new ArrayList<>();
-    /*since we already handle the triangles here we should handle the grid here aswell
-     * but i put the initializier for the first build up into the Grid class and used it as a
-     * gridBuildingHelp in the Main class*/
+
     private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
-    private Camera camera;
 
     /**
      * Adds triangles to this scene.
      */
     public void addAll(Collection<Triangle> triangles) {
         this.triangles.addAll(triangles);
-    }
-
-    public void addCamera(Camera camera){
-        this.camera = camera;
     }
 
     public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
@@ -36,25 +29,15 @@ public class Scene {
     * the cube, it will be safed as a part of the list in the Hashmap under the cube, if a cube has
     * no triangle intersection, its gonna be kicked out.*/
 
-    public void safeTrianglesInGrid(){
-        ArrayList<Cube> toDelete = new ArrayList<>();
+    public void safeTrianglesInGrid() {
         for (Cube cube : grid.keySet()) {
-            boolean intersectedWithTriangle = false;
 
             for (Triangle triangle : triangles) {
-                if (cube.intersectsWithCube(triangle) == true) {
+                if (cube.intersectsWithCube(triangle)) {
                     grid.get(cube).add(triangle);
-                    intersectedWithTriangle = true;
                 }
             }
         }
-/*            if ((intersectedWithTriangle == false )&&(cube.pointInCube(camera.getEye())==false)){
-                toDelete.add(cube);
-            }
-        }
-        for (Cube cube : toDelete){
-            grid.remove(cube);
-        }*/
     }
 
     public ArrayList<Triangle> getTrianglesOfCubeThatGetHitByTheRayInTheCube(Cube cube,Ray ray){
@@ -144,7 +127,7 @@ public class Scene {
                     if(furtherCube == null || !this.grid.containsKey(furtherCube)) break;
                     currentCube = furtherCube;
                 }
-                
+
             }while(true);
         return null;
     }
