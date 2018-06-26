@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class Scene {
     private final Collection<Triangle> triangles = new ArrayList<>();
@@ -22,6 +23,7 @@ public class Scene {
     public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
         this.grid = grid;
         System.out.println("Scene Line 24: Grid Length = "+ grid.size());
+        safeTrianglesInGrid();
     }
 
     public HashMap<Cube, ArrayList<Triangle>> getGrid(){ return this.grid;}
@@ -45,6 +47,34 @@ public class Scene {
                 grid.remove(cube);
             }
         }
+    }
+
+    public ArrayList<Triangle> getTrianglesOfCubeThatGetHitByTheRayInTheCube(Cube cube,Ray ray){
+        ArrayList<Triangle> HitTriangles = new ArrayList<>();
+        for (Triangle triangle:grid.get(cube)){
+            if(rayHitsATriangleInCube(triangle,cube,ray)==true){
+                HitTriangles.add(triangle);
+            }
+        }
+        if(triangles.isEmpty()){
+            return null;
+        }else{
+        return HitTriangles;
+        }
+    }
+
+    public boolean rayHitsATriangleInCube(Triangle triangle, Cube cube, Ray ray){
+      boolean intersection = false;
+        SurfaceInformation triangleRayIntersection = triangle.intersectWith(ray);
+
+        if(triangleRayIntersection!=null){
+            Vector3D point = triangleRayIntersection.getPosition();
+            if (cube.pointInCube(point)==true){
+                intersection = true;
+            }
+        }
+
+      return intersection;
     }
 
 
@@ -81,6 +111,7 @@ public class Scene {
        return ((double) sum / (double) count);
     }
 */
+
     /**
      * Traces the given ray through the scene until it intersects anything.
      *
