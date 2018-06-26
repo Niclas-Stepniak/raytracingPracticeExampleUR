@@ -13,12 +13,17 @@ public class Scene {
      * but i put the initializier for the first build up into the Grid class and used it as a
      * gridBuildingHelp in the Main class*/
     private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
+    private Camera camera;
 
     /**
      * Adds triangles to this scene.
      */
     public void addAll(Collection<Triangle> triangles) {
         this.triangles.addAll(triangles);
+    }
+
+    public void addCamera(Camera camera){
+        this.camera = camera;
     }
 
     public void setGrid(HashMap<Cube, ArrayList<Triangle>> grid) {
@@ -43,7 +48,7 @@ public class Scene {
                 }
             }
 
-            if (intersectedWithTriangle == false){
+            if ((intersectedWithTriangle == false )&&(cube.pointInCube(camera.getEye())==false)){
                 toDelete.add(cube);
             }
         }

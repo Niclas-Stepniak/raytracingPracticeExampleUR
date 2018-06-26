@@ -41,6 +41,7 @@ public class MainClass {
     Camera camera = createCameraThatLooksAtBunnyTriangles(triangles);
 
     var scene = new Scene();
+    scene.addCamera(camera);
     scene.addAll(triangles);
     scene.setGrid(gridBuildingHelp.getGrid());
 
