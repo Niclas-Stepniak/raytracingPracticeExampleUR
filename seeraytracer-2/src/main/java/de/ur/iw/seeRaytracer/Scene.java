@@ -38,22 +38,23 @@ public class Scene {
 
     public void safeTrianglesInGrid(){
         ArrayList<Cube> toDelete = new ArrayList<>();
-        for (Cube cube : grid.keySet()){
+        for (Cube cube : grid.keySet()) {
             boolean intersectedWithTriangle = false;
 
-            for(Triangle triangle : triangles){
-                if(cube.intersectsWithCube(triangle) == true){
+            for (Triangle triangle : triangles) {
+                if (cube.intersectsWithCube(triangle) == true) {
                     grid.get(cube).add(triangle);
                     intersectedWithTriangle = true;
                 }
             }
-            if ((intersectedWithTriangle == false )&&(cube.pointInCube(camera.getEye())==false)){
+        }
+/*            if ((intersectedWithTriangle == false )&&(cube.pointInCube(camera.getEye())==false)){
                 toDelete.add(cube);
             }
         }
         for (Cube cube : toDelete){
             grid.remove(cube);
-        }
+        }*/
     }
 
     public ArrayList<Triangle> getTrianglesOfCubeThatGetHitByTheRayInTheCube(Cube cube,Ray ray){
@@ -143,8 +144,7 @@ public class Scene {
                     if(furtherCube == null || !this.grid.containsKey(furtherCube)) break;
                     currentCube = furtherCube;
                 }
-
-
+                
             }while(true);
         return null;
     }
