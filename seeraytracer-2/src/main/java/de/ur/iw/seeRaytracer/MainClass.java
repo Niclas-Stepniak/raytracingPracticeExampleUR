@@ -44,6 +44,7 @@ public class MainClass {
     scene.addCamera(camera);
     scene.addAll(triangles);
     scene.setGrid(gridBuildingHelp.getGrid());
+    scene.safeTrianglesInGrid();
 
     int imageHeight = (int) (imageWidth / camera.getAspectRatio());
     var image = renderImage(scene, camera, imageWidth, imageHeight);
@@ -73,12 +74,14 @@ public class MainClass {
     );
     boundingBox = boundingBox.addCameraToBoundingBox(camera);
     gridBuildingHelp = new Grid(boundingBox);
+
     return camera;
   }
 
   private static BufferedImage renderImage(Scene scene, Camera camera, int imageWidth,
       int imageHeight) {
     var image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+
     Cube cameraOriginCube = null;
     var eye = camera.getEye();
     for(Cube cube: scene.getGrid().keySet()){

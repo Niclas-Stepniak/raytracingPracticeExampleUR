@@ -9,7 +9,7 @@ public class Grid implements Iterable<Vector3D>{
   private HashMap<Cube,ArrayList<Triangle>> grid = new HashMap<>();
 
   //Just because
-  private final int sideLengthFactor = 42;
+  private final int sideLengthFactor = 16;
 
   public Grid(AxisAlignedBoundingBox boundingbox) {
 

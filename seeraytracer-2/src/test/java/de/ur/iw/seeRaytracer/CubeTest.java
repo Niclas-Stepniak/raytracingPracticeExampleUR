@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 
 class CubeTest {
 
@@ -40,4 +42,17 @@ class CubeTest {
         assertTrue(cube.intersectsWithCube(t3));
     }
 
+    @Test
+    void getNeighbourCubes() {
+        Cube start = new Cube(new Vector3D(0,0,0), new Vector3D(1,1,1));
+        ArrayList<Cube> neighbourCubes = new ArrayList<>();
+        neighbourCubes.add(new Cube(new Vector3D(-1, 0,0), new Vector3D(0, 1 ,1)));
+        neighbourCubes.add(new Cube(new Vector3D(1, 0,0), new Vector3D(2, 1 ,1)));
+        neighbourCubes.add(new Cube(new Vector3D(0, -1,0), new Vector3D(1, 0 ,1)));
+        neighbourCubes.add(new Cube(new Vector3D(0, 1,0), new Vector3D(1, 2 ,1)));
+        neighbourCubes.add(new Cube(new Vector3D(0, 0,-1), new Vector3D(1, 1 ,0)));
+        neighbourCubes.add(new Cube(new Vector3D(0, 0,1), new Vector3D(1, 1 ,2)));
+        assertEquals(neighbourCubes, start.getNeighbourCubes());
+
+    }
 }
